@@ -44,6 +44,10 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- disable netrw at the very start of init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -93,6 +97,18 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
   },
 
   {
@@ -191,10 +207,14 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    "folke/tokyonight.nvim",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require("tokyonight").setup({
+        style= "night",
+        terminal_colors = true
+      })
+      vim.cmd.colorscheme 'tokyonight'
     end,
   },
 
@@ -205,7 +225,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
       },
@@ -309,6 +329,8 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+require("nvim-tree").setup()
 
 -- [[ Basic Keymaps ]]
 
